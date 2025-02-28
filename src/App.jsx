@@ -2,26 +2,25 @@ import { useEffect, useState } from "react";
 import { Header } from "./components/header";
 import { Tasks } from "./components/tasks";
 
-const LOCAL_STORAGE_KEY = "todo:savedTasks"
+const LOCAL_STORAGE_KEY = "todo:savedTasks";
 
 function App() {
-
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState([]);
 
   function loadSavedTasks() {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY)
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
-      setTasks(JSON.parse(saved))
+      setTasks(JSON.parse(saved));
     }
   }
 
   useEffect(() => {
-    loadSavedTasks()
-  }, [])
+    loadSavedTasks();
+  }, []);
 
   function setTaskAndSave(newTasks) {
-    setTasks(newTasks)
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newTasks))
+    setTasks(newTasks);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newTasks));
   }
 
   function addTask(taskTitle) {
@@ -30,24 +29,24 @@ function App() {
       {
         id: crypto.randomUUID(),
         title: taskTitle,
-        isCompleted: false
-      }
-    ])
+        isCompleted: false,
+      },
+    ]);
   }
 
   function toggleTaskCompletedById(taskId) {
-    const newTasks = tasks.map(task => {
-      if (task.id === taskId) {
-        return { ...task, isCompleted: !task.isCompleted }
-      }
-      return task
-    })
-    setTaskAndSave(newTasks)
+    console.log("toggleTaskCompletedById", taskId);
+    
+    const newTasks = tasks.map((task) => {
+      task.isCompleted = true;
+      return task;
+    });
+    setTaskAndSave(newTasks);
   }
 
   function deleteTaskById(taskId) {
-    const newTasks = tasks.filter(task => task.id != taskId)
-    setTaskAndSave(newTasks)
+    const newTasks = tasks.filter((task) => task.id != taskId);
+    setTaskAndSave(newTasks);
   }
 
   return (
@@ -59,7 +58,7 @@ function App() {
         onDelete={deleteTaskById}
       />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
